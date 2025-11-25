@@ -18,3 +18,16 @@ const divide = function(a, b){
     if (a === 0) return 'Error';
     return a / b;
 }
+
+function operate(operand1, operand2, operator) {
+    switch(operator) {
+        case "+":
+            return add(operand1, operand2);
+        case "-":
+            return subtract(operand1, operand2);
+        case "*":
+            return multiply(operand1, operand2);
+        case "/":
+            return divide(operand1, operand2);
+    }
+}
