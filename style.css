@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+:root {
+    --color-orange:     #faa307;
+    --color-white:      #f4f1de;
+    --color-display:    #e3d5ca;
+    --color-border:     #252422;
+    --color-bg:         #403d39;
+    --color-red:        #ad2831;
+}
+
+* {
+    margin:      0;
+    padding:     0;
+    box-sizing:  border-box;
+
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+}
+
+body {
+    display:           flex;
+    min-height:        100vh;
+    background-color:#faedcd;
+}
+
+.calculator {
+    width:          400px;
+    height:         560px;
+    padding:        20px;
+    margin:         auto;
+    border-radius:  14px;
+    background:     var(--color-bg);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+.display {
+    height:             100px;
+    padding:            20px 12px;
+    margin-bottom:      20px;
+    border-radius:      14px;
+    background:         var(--color-display);
+
+    display:            flex;
+    justify-content:    flex-end;
+    align-items:        flex-end;
+}
+
+.keypad {
+    display:        flex;
+    flex-wrap:      wrap;
+    gap:            20px;
+    justify-content:flex-end;
+}
+
+.btn, 
+.btn-clear, 
+.btn-equal {
+    width:          calc(25% - 15px);
+    padding:        20px 30px;
+    font-size:      1em;
+    border-radius:  20px;
+    border:         2px solid var(--color-border);
+    background:     var(--color-white);
+    cursor:         pointer;
+}
+
+.btn-equal {
+    background: var(--color-orange);
+    color:      var(--color-white);
+}
+
+.btn-clear {
+    background: var(--color-red);
+    color:      var(--color-white);
+    margin-left: 100%;
+}
