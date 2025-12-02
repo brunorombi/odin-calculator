@@ -31,3 +31,22 @@ function operate(operand1, operand2, operator) {
             return divide(operand1, operand2);
     }
 }
+
+const display = document.querySelector('.display');
+const btns = document.querySelectorAll('.btn');
+let expression = "";
+
+btns.forEach(btn => {
+    btn.addEventListener('click', function(event) {
+        expression += event.target.textContent
+        display.textContent = expression;
+    })
+})
+
+
+
+
+
+
+
+
