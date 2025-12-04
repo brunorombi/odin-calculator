@@ -1,6 +1,11 @@
+const display = document.querySelector('.display');
+const btns = document.querySelectorAll('.btn');
+const equalBtn = document.querySelector('.equal-btn')
+
 let operand1 = null;
 let operand2 = null;
 let operator = null;
+let expression = "";
 
 const add = function(a, b) {
     return a + b;
@@ -25,16 +30,12 @@ function operate(operand1, operand2, operator) {
             return add(operand1, operand2);
         case "-":
             return subtract(operand1, operand2);
-        case "*":
+        case "X":
             return multiply(operand1, operand2);
-        case "/":
+        case "÷":
             return divide(operand1, operand2);
     }
 }
-
-const display = document.querySelector('.display');
-const btns = document.querySelectorAll('.btn');
-let expression = "";
 
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
@@ -43,7 +44,19 @@ btns.forEach(btn => {
     })
 })
 
+function storeNumbers() {
+    const parts = expression.split(' ');
+    operator = parts[1]
+    operand1 = parseFloat(parts[0]);
+    operand2 = parseFloat(parts[2]);
+}
 
+equalBtn.addEventListener('click', () => {
+    storeNumbers();
+    let result = operate(operand1, operand2, operator);
+    expression = result;
+    display.textContent = result;
+});
 
 
 

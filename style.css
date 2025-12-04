@@ -55,7 +55,7 @@ body {
 
 .btn, 
 .btn-clear, 
-.btn-equal {
+.orange-btn {
     width:          calc(25% - 15px);
     padding:        20px 30px;
     font-size:      1em;
@@ -65,7 +65,7 @@ body {
     cursor:         pointer;
 }
 
-.btn-equal {
+.orange-btn {
     background: var(--color-orange);
     color:      var(--color-white);
 }
