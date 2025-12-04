@@ -40,7 +40,7 @@ function operate(operand1, operand2, operator) {
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
         expression += event.target.textContent
-        display.textContent = expression;
+        updateDisplay(expression);
     })
 })
 
@@ -53,13 +53,14 @@ function storeNumbers() {
 
 equalBtn.addEventListener('click', () => {
     storeNumbers();
-    let result = operate(operand1, operand2, operator);
-    expression = result;
-    display.textContent = result;
+    expression = operate(operand1, operand2, operator);
+    updateDisplay(expression);
 });
 
 
-
+function updateDisplay(expression) {
+    display.textContent = expression;
+}
 
 
 
