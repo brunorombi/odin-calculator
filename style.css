@@ -54,7 +54,7 @@ body {
 }
 
 .btn, 
-.btn-clear, 
+.clear-btn, 
 .orange-btn {
     width:          calc(25% - 15px);
     padding:        20px 30px;
@@ -70,7 +70,7 @@ body {
     color:      var(--color-white);
 }
 
-.btn-clear {
+.clear-btn {
     background: var(--color-red);
     color:      var(--color-white);
     margin-left: 100%;

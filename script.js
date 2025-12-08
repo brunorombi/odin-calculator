@@ -1,6 +1,7 @@
 const display = document.querySelector('.display');
 const btns = document.querySelectorAll('.btn');
-const equalBtn = document.querySelector('.equal-btn')
+const equalBtn = document.querySelector('.equal-btn');
+const clearBtn = document.querySelector('.clear-btn');
 
 let operand1 = null;
 let operand2 = null;
@@ -61,6 +62,11 @@ equalBtn.addEventListener('click', () => {
 function updateDisplay(expression) {
     display.textContent = expression;
 }
+
+clearBtn.addEventListener('click', () => {
+    expression = "0";
+    updateDisplay(expression);
+})
 
 
 
