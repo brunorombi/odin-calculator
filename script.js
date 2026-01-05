@@ -3,10 +3,10 @@ const btns = document.querySelectorAll('.btn');
 const equalBtn = document.querySelector('.equal-btn');
 const clearBtn = document.querySelector('.clear-btn');
 
-let operand1 = null;
-let operand2 = null;
 let operator = null;
-let expression = "";
+let waitingForSecondOperand = false;
+let displayValue = "0";
+let firstOperand = null;
 
 const add = function(a, b) {
     return a + b;
@@ -38,35 +38,73 @@ function operate(operand1, operand2, operator) {
     }
 }
 
-btns.forEach(btn => {
-    btn.addEventListener('click', function(event) {
-        expression += event.target.textContent
-        updateDisplay(expression);
-    })
-})
-
-function storeNumbers() {
-    const parts = expression.split(' ');
-    operator = parts[1]
-    operand1 = parseFloat(parts[0]);
-    operand2 = parseFloat(parts[2]);
+function inputDigit(digit) {
+    if (waitingForSecondOperand === true) {
+        displayValue = digit;
+        waitingForSecondOperand = false;
+    } else {
+        displayValue = displayValue === '0' ? digit : displayValue + digit;
+    }
 }
 
-equalBtn.addEventListener('click', () => {
-    storeNumbers();
-    expression = operate(operand1, operand2, operator);
-    updateDisplay(expression);
+function handleOperator(nextOperator) {
+    const inputValue = parseFloat(displayValue);
+
+    if (firstOperand === null) {
+        firstOperand = inputValue;
+    } else if (operator) {
+        const result = operate(firstOperand, inputValue, operator);
+        displayValue = `${result}`;
+        firstOperand = result;
+    }
+
+    waitingForSecondOperand = true;
+    operator = nextOperator;
+
+    updateDisplay();
+}
+
+
+btns.forEach(btn => {
+    btn.addEventListener('click', function(event) {
+        const value = event.target.textContent.trim();
+
+        if (!isNaN(value) && value !== '.') {
+            inputDigit(value);
+            updateDisplay()
+        }
+
+        else if (['+', '-', 'X', '÷'].includes(value)) {
+            handleOperator(value);
+        }
+    });
 });
 
 
-function updateDisplay(expression) {
-    display.textContent = expression;
+equalBtn.addEventListener('click', () => {
+    if (firstOperand !== null && operator !== null) {
+        const secondOperand = parseFloat(displayValue);
+        const result = operate(firstOperand, secondOperand, operator);
+        displayValue = `${result}`;
+        firstOperand = null;
+        operator = null;
+        waitingForSecondOperand = true;
+        updateDisplay();
+    }
+});
+
+
+function updateDisplay() {
+    display.textContent = displayValue;
 }
 
 clearBtn.addEventListener('click', () => {
-    expression = "0";
-    updateDisplay(expression);
+    displayValue = "0";
+    firstOperand = null;
+    waitingForSecondOperand = false;
+    operator = null;
+    updateDisplay();
 })
 
-
+updateDisplay();
 
