@@ -2,11 +2,14 @@ const display = document.querySelector('.display');
 const btns = document.querySelectorAll('.btn');
 const equalBtn = document.querySelector('.equal-btn');
 const clearBtn = document.querySelector('.clear-btn');
+// const operators = document.querySelector('.operator');
+
 
 let operator = null;
-let waitingForSecondOperand = false;
 let displayValue = "0";
 let firstOperand = null;
+let secondOperand = null;
+let isSecondOperator = false;
 
 const add = function(a, b) {
     return a + b;
@@ -38,59 +41,21 @@ function operate(operand1, operand2, operator) {
     }
 }
 
-function inputDigit(digit) {
-    if (waitingForSecondOperand === true) {
-        displayValue = digit;
-        waitingForSecondOperand = false;
-    } else {
-        displayValue = displayValue === '0' ? digit : displayValue + digit;
-    }
-}
-
-function handleOperator(nextOperator) {
-    const inputValue = parseFloat(displayValue);
-
-    if (firstOperand === null) {
-        firstOperand = inputValue;
-    } else if (operator) {
-        const result = operate(firstOperand, inputValue, operator);
-        displayValue = `${result}`;
-        firstOperand = result;
-    }
-
-    waitingForSecondOperand = true;
-    operator = nextOperator;
-
-    updateDisplay();
-}
-
-
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
         const value = event.target.textContent.trim();
-
-        if (!isNaN(value) && value !== '.') {
-            inputDigit(value);
-            updateDisplay()
-        }
-
-        else if (['+', '-', 'X', '÷'].includes(value)) {
-            handleOperator(value);
-        }
+        handleInput(value, btn);
+        displayValue += value;
+        updateDisplay();
     });
 });
 
 
 equalBtn.addEventListener('click', () => {
-    if (firstOperand !== null && operator !== null) {
-        const secondOperand = parseFloat(displayValue);
-        const result = operate(firstOperand, secondOperand, operator);
-        displayValue = `${result}`;
-        firstOperand = null;
-        operator = null;
-        waitingForSecondOperand = true;
-        updateDisplay();
-    }
+    const result = operate(firstOperand, secondOperand, operator);
+    displayValue = result;
+    updateDisplay();
+    resetAfterResult();
 });
 
 
@@ -101,10 +66,27 @@ function updateDisplay() {
 clearBtn.addEventListener('click', () => {
     displayValue = "0";
     firstOperand = null;
-    waitingForSecondOperand = false;
+    secondOperand = null;
     operator = null;
     updateDisplay();
 })
 
-updateDisplay();
 
+function handleInput(value, btn) {
+    if (btn.classList.contains('operator')) {
+        operator = value;
+    }
+    else if(operator) {
+        secondOperand += parseFloat(value);
+    } else {
+        firstOperand += parseFloat(value);
+    }
+}
+
+
+function resetAfterResult(result) {
+    firstOperand = result;
+    operator = null;
+    secondOperand = null;
+}
+updateDisplay();
