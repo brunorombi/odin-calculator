@@ -44,7 +44,9 @@ function operate(operand1, operand2, operator) {
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
         const value = event.target.textContent.trim();
+    
         handleInput(value, btn);
+
         displayValue += value;
         updateDisplay();
     });
@@ -52,10 +54,12 @@ btns.forEach(btn => {
 
 
 equalBtn.addEventListener('click', () => {
-    const result = operate(firstOperand, secondOperand, operator);
-    displayValue = result;
+    calculate();
     updateDisplay();
     resetAfterResult();
+    secondOperand = null;
+    operator = null;
+    isSecondOperator = false;
 });
 
 
@@ -75,8 +79,15 @@ clearBtn.addEventListener('click', () => {
 function handleInput(value, btn) {
     if (btn.classList.contains('operator')) {
         operator = value;
+        if (!isSecondOperator) {
+            isSecondOperator = true;
+        } else {
+            calculate();
+            updateDisplay();
+            resetAfterResult(displayValue);
+        } 
     }
-    else if(operator) {
+    else if(firstOperand) {
         secondOperand += parseFloat(value);
     } else {
         firstOperand += parseFloat(value);
@@ -86,7 +97,11 @@ function handleInput(value, btn) {
 
 function resetAfterResult(result) {
     firstOperand = result;
-    operator = null;
-    secondOperand = null;
+    secondOperand = null; 
+}
+
+function calculate() {
+    const result = operate(firstOperand, secondOperand, operator);
+    displayValue = result;
 }
 updateDisplay();
