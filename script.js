@@ -7,8 +7,8 @@ const clearBtn = document.querySelector('.clear-btn');
 
 let operator = null;
 let displayValue = "0";
-let firstOperand = null;
-let secondOperand = null;
+let firstOperand = "";
+let secondOperand = "";
 let isSecondOperator = false;
 
 const add = function(a, b) {
@@ -69,39 +69,41 @@ function updateDisplay() {
 
 clearBtn.addEventListener('click', () => {
     displayValue = "0";
-    firstOperand = null;
-    secondOperand = null;
+    firstOperand = "";
+    secondOperand = "";
     operator = null;
+    isSecondOperator = false;
     updateDisplay();
 })
 
 
 function handleInput(value, btn) {
     if (btn.classList.contains('operator')) {
-        operator = value;
         if (!isSecondOperator) {
             isSecondOperator = true;
         } else {
             calculate();
             updateDisplay();
             resetAfterResult(displayValue);
-        } 
+        }
+        operator = value;
     }
-    else if(firstOperand) {
-        secondOperand += parseFloat(value);
+    else if(operator) {
+        secondOperand += (value);
+        
     } else {
-        firstOperand += parseFloat(value);
+        firstOperand += (value);
+        parseFloat(firstOperand);
     }
 }
-
 
 function resetAfterResult(result) {
     firstOperand = result;
-    secondOperand = null; 
+    secondOperand = ""; 
 }
 
 function calculate() {
-    const result = operate(firstOperand, secondOperand, operator);
+    const result = operate(parseFloat(firstOperand), parseFloat(secondOperand), operator);
     displayValue = result;
 }
 updateDisplay();
