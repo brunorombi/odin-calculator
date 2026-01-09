@@ -24,7 +24,7 @@ const multiply = function(a, b){
 }
 
 const divide = function(a, b){
-    if (a === 0) return 'Error';
+    if (b === 0) return 'Cannot divide by zero';
     return a / b;
 }
 
@@ -94,23 +94,31 @@ function handleInput(value, btn) {
         secondOperand += value;
         
     } else {
+        if (displayValue == "0" || displayValue === "Cannot divide by zero") {
+            displayValue = "";
+            updateDisplay();
+        }
         firstOperand += value;
     }
 }
 
 function resetAfterResult(result) {
+     if (result === "Cannot divide by zero") {
+        firstOperand = "";
+        secondOperand = "";
+        return;
+    }
     firstOperand = result;
     secondOperand = ""; 
 }
 
 function calculate() {
     let result = operate(parseFloat(firstOperand), parseFloat(secondOperand), operator);
-
+   
     const decimals = countDecimals(result);
     if (decimals > 8) {
         result = roundBigDecimalNumber(result);
     }
-
     displayValue = result;
 }
 
