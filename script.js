@@ -56,8 +56,8 @@ btns.forEach(btn => {
 equalBtn.addEventListener('click', () => {
     calculate();
     updateDisplay();
-    resetAfterResult();
-    secondOperand = null;
+    resetAfterResult(displayValue);
+    secondOperand = "";
     operator = null;
     isSecondOperator = false;
 });
@@ -89,11 +89,10 @@ function handleInput(value, btn) {
         operator = value;
     }
     else if(operator) {
-        secondOperand += (value);
+        secondOperand += value;
         
     } else {
-        firstOperand += (value);
-        parseFloat(firstOperand);
+        firstOperand += value;
     }
 }
 
@@ -103,7 +102,27 @@ function resetAfterResult(result) {
 }
 
 function calculate() {
-    const result = operate(parseFloat(firstOperand), parseFloat(secondOperand), operator);
+    let result = operate(parseFloat(firstOperand), parseFloat(secondOperand), operator);
+
+    const decimals = countDecimals(result);
+    if (decimals > 8) {
+        result = roundBigDecimalNumber(result);
+    }
+
     displayValue = result;
+}
+
+function roundBigDecimalNumber(number) {
+    return Math.round(number * 1e8) / 1e8;
+}
+
+function countDecimals(number) {
+    const numStr = String(number);
+
+    if (numStr.includes('.')) {
+        return numStr.split('.')[1].length; 
+    }
+
+    return 0;
 }
 updateDisplay();
