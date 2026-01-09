@@ -54,12 +54,14 @@ btns.forEach(btn => {
 
 
 equalBtn.addEventListener('click', () => {
-    calculate();
-    updateDisplay();
-    resetAfterResult(displayValue);
-    secondOperand = "";
-    operator = null;
-    isSecondOperator = false;
+    if (secondOperand) {
+        calculate();
+        updateDisplay();
+        resetAfterResult(displayValue);
+        secondOperand = "";
+        operator = null;
+        isSecondOperator = false;
+    }
 });
 
 
