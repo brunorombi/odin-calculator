@@ -2,14 +2,15 @@ const display = document.querySelector('.display');
 const btns = document.querySelectorAll('.btn');
 const equalBtn = document.querySelector('.equal-btn');
 const clearBtn = document.querySelector('.clear-btn');
-// const operators = document.querySelector('.operator');
+const operators = document.querySelectorAll('.operator')
 
 
 let operator = null;
 let displayValue = "0";
-let firstOperand = "";
+let firstOperand = "0";
 let secondOperand = "";
 let isSecondOperator = false;
+let equalPressed = false;
 
 const add = function(a, b) {
     return a + b;
@@ -61,6 +62,7 @@ equalBtn.addEventListener('click', () => {
         secondOperand = "";
         operator = null;
         isSecondOperator = false;
+        equalPressed = true;
     }
 });
 
@@ -71,9 +73,10 @@ function updateDisplay() {
 
 clearBtn.addEventListener('click', () => {
     displayValue = "0";
-    firstOperand = "";
+    firstOperand = "0";
     secondOperand = "";
     operator = null;
+    equalPressed = false;
     isSecondOperator = false;
     updateDisplay();
 })
@@ -94,16 +97,18 @@ function handleInput(value, btn) {
         secondOperand += value;
         
     } else {
-        if (displayValue == "0" || displayValue === "Cannot divide by zero") {
+        if (displayValue == "0" || displayValue === "Cannot divide by zero" || equalPressed) {
             displayValue = "";
+            firstOperand = "0";
             updateDisplay();
+            equalPressed = false;
         }
         firstOperand += value;
     }
 }
 
 function resetAfterResult(result) {
-     if (result === "Cannot divide by zero") {
+    if (result === "Cannot divide by zero") {
         firstOperand = "";
         secondOperand = "";
         return;
@@ -135,4 +140,8 @@ function countDecimals(number) {
 
     return 0;
 }
+
+// function dividedByZero() {
+
+// }
 updateDisplay();
