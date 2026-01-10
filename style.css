@@ -75,3 +75,9 @@ body {
     color:      var(--color-white);
     margin-left: 100%;
 }
+
+.blocked-operators {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}

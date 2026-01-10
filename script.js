@@ -45,11 +45,7 @@ function operate(operand1, operand2, operator) {
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
         const value = event.target.textContent.trim();
-    
         handleInput(value, btn);
-
-        displayValue += value;
-        updateDisplay();
     });
 });
 
@@ -78,39 +74,50 @@ clearBtn.addEventListener('click', () => {
     operator = null;
     equalPressed = false;
     isSecondOperator = false;
+    enableOperators();
     updateDisplay();
 })
-
 
 function handleInput(value, btn) {
     if (btn.classList.contains('operator')) {
         if (!isSecondOperator) {
             isSecondOperator = true;
+            displayValue += value;
+            operator = value;
         } else {
             calculate();
             updateDisplay();
             resetAfterResult(displayValue);
-        }
-        operator = value;
+
+            if (displayValue === "Cannot divide by zero") {
+            operator = null;
+            isSecondOperator = false;
+            }  else {
+            displayValue += value;
+            operator = value;
+            }
+        } 
     }
     else if(operator) {
         secondOperand += value;
-        
+        displayValue += value;
     } else {
-        if (displayValue == "0" || displayValue === "Cannot divide by zero" || equalPressed) {
+        if (displayValue == "0" || displayValue === "Cannot divide by zero" || equalPressed ) {
             displayValue = "";
             firstOperand = "0";
-            updateDisplay();
+            enableOperators();
             equalPressed = false;
         }
         firstOperand += value;
+        displayValue += value;
     }
+
+    updateDisplay();
 }
 
 function resetAfterResult(result) {
     if (result === "Cannot divide by zero") {
-        firstOperand = "";
-        secondOperand = "";
+        disableOperators();
         return;
     }
     firstOperand = result;
@@ -119,7 +126,6 @@ function resetAfterResult(result) {
 
 function calculate() {
     let result = operate(parseFloat(firstOperand), parseFloat(secondOperand), operator);
-   
     const decimals = countDecimals(result);
     if (decimals > 8) {
         result = roundBigDecimalNumber(result);
@@ -141,7 +147,19 @@ function countDecimals(number) {
     return 0;
 }
 
-// function dividedByZero() {
+function disableOperators() {
+    operators.forEach(operator => {
+        operator.classList.add('blocked-operators');
+    });
 
-// }
+    firstOperand = "";
+    secondOperand = "";
+}
+
+function enableOperators() {
+    operators.forEach(operator => {
+        operator.classList.remove('blocked-operators');
+    });
+}
+
 updateDisplay();
