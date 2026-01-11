@@ -31,20 +31,20 @@ const divide = function(a, b){
 
 function operate(operand1, operand2, operator) {
     switch(operator) {
-        case "+":
+        case " + ":
             return add(operand1, operand2);
-        case "-":
+        case " - ":
             return subtract(operand1, operand2);
-        case "X":
+        case " X ":
             return multiply(operand1, operand2);
-        case "÷":
+        case " ÷ ":
             return divide(operand1, operand2);
     }
 }
 
 btns.forEach(btn => {
     btn.addEventListener('click', function(event) {
-        const value = event.target.textContent.trim();
+        const value = event.target.textContent;
         handleInput(value, btn);
     });
 });
