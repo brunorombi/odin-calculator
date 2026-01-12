@@ -80,27 +80,12 @@ clearBtn.addEventListener('click', () => {
 
 function handleInput(value, btn) {
     if (btn.classList.contains('operator')) {
-        if (!isSecondOperator) {
-            isSecondOperator = true;
-            displayValue += value;
-            operator = value;
-        } else {
-            calculate();
-            updateDisplay();
-            resetAfterResult(displayValue);
-
-            if (displayValue === "Cannot divide by zero") {
-            operator = null;
-            isSecondOperator = false;
-            }  else {
-            displayValue += value;
-            operator = value;
-            }
-        } 
+        handleOperator(value);
     }
     else if(operator) {
         secondOperand += value;
         displayValue += value;
+        isSecondOperator = false; 
     } else {
         if (displayValue == "0" || displayValue === "Cannot divide by zero" || equalPressed ) {
             displayValue = "";
@@ -113,6 +98,32 @@ function handleInput(value, btn) {
     }
 
     updateDisplay();
+}
+
+
+function handleOperator(value) {
+    if(!operator) {
+        operator = value;
+        displayValue += value;
+        isSecondOperator = true;
+    } else if(isSecondOperator) {
+        displayValue = displayValue.slice(0, -3);
+        displayValue += value;
+        operator = value;
+    } else if(secondOperand) {
+        calculate();
+        updateDisplay();
+        resetAfterResult(displayValue);
+
+        if (displayValue === "Cannot divide by zero") {
+                operator = null;
+                isSecondOperator = false;
+        } else {
+            displayValue += value;
+            operator = value;
+            isSecondOperator = true;
+        }
+    } 
 }
 
 function resetAfterResult(result) {
@@ -148,8 +159,8 @@ function countDecimals(number) {
 }
 
 function disableOperators() {
-    operators.forEach(operator => {
-        operator.classList.add('blocked-operators');
+    operators.forEach(op => {
+        op.classList.add('blocked-operators');
     });
 
     firstOperand = "";
