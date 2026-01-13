@@ -9,7 +9,6 @@ A fully functional web calculator built with vanilla JavaScript. This project de
 - Division by zero error handling
 - Floating-point precision control
 - Clean, responsive UI
-- Keyboard support (optional)
 
 ## Technologies
 - HTML5, CSS3, JavaScript (ES6+)
